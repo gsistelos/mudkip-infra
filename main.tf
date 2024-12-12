@@ -6,56 +6,49 @@ terraform {
     }
   }
 
-  required_version = "1.10.1"
-}
-
-variable "psqlserver_administrator_login" {
-  type        = string
-  description = "The administrator login for the PostgreSQL Server."
-}
-
-variable "psqlserver_administrator_login_password" {
-  type        = string
-  description = "The password associated with the administrator login for the PostgreSQL Server."
+  required_version = "1.10.2"
 }
 
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "mudkip_rg" {
-  name     = "mudkip-rg"
+resource "azurerm_resource_group" "mudkip" {
+  name     = "${var.prefix}-resources"
   location = "Brazil South"
 }
 
-resource "azurerm_postgresql_server" "mudkip_psqlserver" {
-  name     = "mudkip-psqlserver"
-  location = azurerm_resource_group.mudkip_rg.location
+resource "azurerm_container_registry" "mudkip" {
+  name                = "${var.prefix}registry"
+  resource_group_name = azurerm_resource_group.mudkip.name
+  location            = azurerm_resource_group.mudkip.location
+  sku                 = "Basic"
 
-  resource_group_name = azurerm_resource_group.mudkip_rg.name
-
-  administrator_login          = var.psqlserver_administrator_login
-  administrator_login_password = var.psqlserver_administrator_login_password
-
-  sku_name = "B_Gen5_1"
-  version  = "11"
-
-  ssl_enforcement_enabled = true
+  admin_enabled = true
 }
 
-resource "azurerm_postgresql_database" "mudkip_psqldb" {
-  name      = "mudkip-psqldb"
-  charset   = "UTF8"
-  collation = "en-US"
+resource "azurerm_container_group" "mudkip" {
+  name                = "${var.prefix}-continst"
+  location            = azurerm_resource_group.mudkip.location
+  resource_group_name = azurerm_resource_group.mudkip.name
+  os_type             = "Linux"
 
-  resource_group_name = azurerm_resource_group.mudkip_rg.name
-  server_name         = azurerm_postgresql_server.mudkip_psqlserver.name
+  ip_address_type = "Public"
 
-  lifecycle {
-    prevent_destroy = true
+  image_registry_credential {
+    server   = azurerm_container_registry.mudkip.login_server
+    username = azurerm_container_registry.mudkip.admin_username
+    password = azurerm_container_registry.mudkip.admin_password
   }
-}
 
-output "psqlserver_fqdn" {
-  value = azurerm_postgresql_server.mudkip_psqlserver.fqdn
+  container {
+    name   = "mudkip"
+    image  = "${azurerm_container_registry.mudkip.login_server}/mudkip:latest"
+    cpu    = "0.5"
+    memory = "1.5"
+
+    ports {
+      port = 8080
+    }
+  }
 }
