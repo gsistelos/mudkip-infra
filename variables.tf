@@ -9,3 +9,7 @@ variable "psqlserver_administrator_login" {
 variable "psqlserver_administrator_login_password" {
   description = "The administrator login password for the PostgreSQL Server"
 }
+
+variable "jwt_secret" {
+  description = "The secret used to sign JWT tokens"
+}

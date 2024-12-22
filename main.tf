@@ -85,6 +85,7 @@ resource "azurerm_container_group" "mudkip" {
 
     environment_variables = {
       "DATABASE_URL" = "postgres://${azurerm_postgresql_server.mudkip.administrator_login}@${azurerm_postgresql_server.mudkip.name}:${azurerm_postgresql_server.mudkip.administrator_login_password}@${azurerm_postgresql_server.mudkip.fqdn}:5432/${azurerm_postgresql_database.mudkip.name}?sslmode=require"
+      "JWT_SECRET"   = var.jwt_secret
     }
   }
 }
