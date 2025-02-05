@@ -1,22 +1,21 @@
 terraform {
-  required_version = "1.10.3"
+  required_version = "1.10.5"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "4.14.0"
+      version = "4.17.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "3.0.2"
+      version = "3.1.0"
     }
   }
 
   # Backend configuration determines where Terraform stores its state files.
   # State files are used to track the current state of your infrastructure.
   # Using a backend instead of local state is essential for team collaboration.
-  # Note: You must first create the resource group, storage account, and container
-  #       before creating the backend configuration.
+  # Bootstrap the backend in ../../bootstrap
   backend "azurerm" {
     resource_group_name  = "tfstate-prod-mudkip-rg"
     storage_account_name = "tfstateprodmudkip"
@@ -29,16 +28,4 @@ provider "azurerm" {
   features {}
 }
 
-module "tfstate" {
-  source = "../../modules/tfstate"
-
-  environment = var.environment
-  location    = var.location
-}
-
-module "mudkip" {
-  source = "../../modules/mudkip"
-
-  environment = var.environment
-  location    = var.location
-}
+# TODO: create a module to manage SP creation
