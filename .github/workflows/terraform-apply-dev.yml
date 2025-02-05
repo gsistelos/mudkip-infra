@@ -3,7 +3,7 @@ name: Terraform
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   terraform:
@@ -20,7 +20,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: environments/prod
+        working-directory: environments/dev
 
     steps:
       - name: Checkout code
@@ -29,7 +29,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.10.3
+          terraform_version: 1.10.5
 
       - name: Terraform init
         run: terraform init
@@ -42,7 +42,7 @@ jobs:
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
           approvers: gsistelos
-          issue-title: "Deploying infrastructure changes to production"
+          issue-title: "Deploying infrastructure changes to development environment"
           issue-body: "Please review the planned changes and approve if everything looks correct."
 
       - name: Terraform apply

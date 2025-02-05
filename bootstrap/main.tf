@@ -19,3 +19,9 @@ module "tfstate" {
   environment = var.environment
   location    = var.location
 }
+
+module "terraform_pipeline" {
+  source = "./modules/terraform-pipeline"
+
+  environment = var.environment
+}

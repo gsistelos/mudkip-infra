@@ -27,9 +27,3 @@ terraform {
 provider "azurerm" {
   features {}
 }
-
-module "github_actions_terraform" {
-  source = "../../modules/github-actions-terraform"
-
-  environment = var.environment
-}
