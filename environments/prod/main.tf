@@ -28,4 +28,8 @@ provider "azurerm" {
   features {}
 }
 
-# TODO: create a module to manage SP creation
+module "github_actions_terraform" {
+  source = "../../modules/github-actions-terraform"
+
+  environment = var.environment
+}
