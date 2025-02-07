@@ -2,7 +2,7 @@ data "azurerm_subscription" "current" {}
 
 # Create a service principal for Terraform pipeline
 resource "azuread_application" "terraform_pipeline" {
-  display_name = "terraform-${var.environment}-pipeline-mudkip"
+  display_name = "terraform-${var.environment}-pipeline-mudkip-app"
 }
 
 resource "azuread_service_principal" "terraform_pipeline" {

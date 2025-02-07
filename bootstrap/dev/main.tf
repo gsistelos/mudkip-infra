@@ -26,11 +26,7 @@ module "terraform_pipeline" {
   environment = "dev"
 }
 
-module "key_vault" {
-  source = "../modules/key-vault"
-
-  environment                      = "dev"
-  location                         = "East US"
-  terraform_pipeline_object_id     = module.terraform_pipeline.terraform_pipeline_object_id
-  terraform_pipeline_client_secret = module.terraform_pipeline.terraform_pipeline_client_secret
+output "terraform_pipeline_credentials" {
+  value     = module.terraform_pipeline.terraform_pipeline_credentials
+  sensitive = true
 }
