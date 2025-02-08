@@ -1,14 +1,14 @@
-name: Terraform
+name: Terraform Prod
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    environment: develop
+    environment: main
 
     permissions:
       issues: write
@@ -21,7 +21,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: environments/dev
+        working-directory: environments/prod
 
     steps:
       - name: Checkout code
@@ -43,7 +43,7 @@ jobs:
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
           approvers: gsistelos
-          issue-title: "Deploying infrastructure changes to development environment"
+          issue-title: "Deploying infrastructure changes to production environment"
           issue-body: "Please review the planned changes and approve if everything looks correct."
 
       - name: Terraform apply
