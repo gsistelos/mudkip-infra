@@ -20,13 +20,13 @@ module "tfstate" {
   location    = "East US"
 }
 
-module "terraform_pipeline" {
-  source = "../modules/terraform-pipeline"
+module "tf_pipeline" {
+  source = "../modules/tf-pipeline"
 
   environment = "prod"
 }
 
-output "terraform_pipeline_credentials" {
-  value     = module.terraform_pipeline.terraform_pipeline_credentials
+output "tf_pipeline_credentials" {
+  value     = module.tf_pipeline.tf_pipeline_credentials
   sensitive = true
 }
