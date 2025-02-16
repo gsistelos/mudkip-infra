@@ -27,3 +27,10 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+module "mudkip" {
+  source = "../modules/mudkip"
+
+  environment = "dev"
+  location    = "East US"
+}
