@@ -1,5 +1,25 @@
+terraform {
+  required_version = "1.10.5"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "4.17.0"
+    }
+
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "3.1.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
 resource "azurerm_resource_group" "mudkip" {
-  name     = "rg-${var.environment}-mudkip"
+  name     = "main-${var.environment}-mudkip-rg"
   location = var.location
 }
 
