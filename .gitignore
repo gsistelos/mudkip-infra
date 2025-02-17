@@ -1,3 +1,7 @@
+# Repositories for building Docker images
+**/dev/mudkip/
+**/prod/mudkip/
+
 # Local .terraform directories
 **/.terraform/*
 
